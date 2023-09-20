@@ -6,10 +6,7 @@ pipeline {
         choice(name: "BROWSER", choices: ['chrome', 'edge', 'firefox'], description: "Enter the browser you wish to execute your test")
     }
 
-    options {
-        // You can specify other options here if needed.
-    }
-
+   
     stages {
         stage('Building') {
             steps {
