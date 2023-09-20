@@ -1,43 +1,48 @@
-pipeline{
-
+pipeline {
     agent any
 
-    parameters{
+    parameters {
         string(name: "SPEC", defaultValue: "cypress/e2e/**/**", description: "Enter the script path you want to execute")
-        choice(name: "BROWSER", choices:['chrome', 'edge', 'firefox'], description: "Enter the browser you wish to execute your test")
+        choice(name: "BROWSER", choices: ['chrome', 'edge', 'firefox'], description: "Enter the browser you wish to execute your test")
     }
 
-    options{
-        ansiColor('xterm')
+    options {
+        // You can specify other options here if needed.
     }
 
-    stages{
-
-        stage('Building'){
-            steps{
-           echo 'Building the application'
+    stages {
+        stage('Building') {
+            steps {
+                echo 'Building the application'
             }
-        
         }
 
-        stage('Testing'){
-         steps{
-            bat "npn 1"
-            bat "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
-         }
+        stage('Testing') {
+            steps {
+                bat "npm install" 
+                bat "npx cypress run --browser ${BROWSER} --spec ${SPEC}"
+            }
         }
 
-        stage('Deploying'){
-            steps{
-            echo 'Deploying the Application'
+        stage('Deploying') {
+            steps {
+                echo 'Deploying the Application'
             }
         }
     }
 
-    post{
-        always{
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+    post {
+        always {
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: false,
+                reportDir: 'cypress/reports',
+                reportFiles: 'index.html',
+                reportName: 'HTML Report',
+                reportTitles: '',
+                useWrapperFileDirectly: true
+            ])
         }
     }
-
 }
