@@ -31,9 +31,9 @@ describe("DashboardPage", () => {
   });
 
   it("dashboard patientbtn", ()=>{
-    dashboard.clickpatientBtn()
-    
+    dashboard.clickpatientBtn() 
   })
+  
   it("dashboard createpatientbtn", ()=>{
     dashboard.clickcreatepatientBtn()
   })

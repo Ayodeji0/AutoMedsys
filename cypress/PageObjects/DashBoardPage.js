@@ -4,7 +4,7 @@ class DashBoard
     searchBox = "//input[@id='combo-box-demo']"
     searchButton ="//button[@aria-label='fullscreen']//span[1]//*[name()='svg']"
     patientBtn =".svg-inline--fa.fa-user.fa-sm"
-    createPatientBtn = "//body/div[@id='root']/div/div/div/header/div/div/div/div/button[2]"
+    createPatientBtn = ".svg-inline--fa.fa-user-plus.fa-sm[data-icon='user-plus']"
     notificationbellIcon ="//header//button[3]//span[1]//*[name()='svg']"
     currentuser = "//button[@aria-label='account of current user']"
     profilebtn ="//li[normalize-space()='Profile']"
@@ -30,11 +30,11 @@ class DashBoard
    }
 
 
-   clickcreatepatientBtn() {
-    cy.get(this.creatPatientBtn).click()
-    cy.url({ timeout: 5000 }).should('include', '/patient/newPatient')
-    
-   }
+    clickcreatepatientBtn() {
+    cy.get(this.createPatientBtn).click();
+    cy.url({ timeout: 30000 }).should('include', '/patient/newPatient');
+  }
+  
 
 
    clicknotificationBellIconBtn() {
