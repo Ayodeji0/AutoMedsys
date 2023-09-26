@@ -15,8 +15,11 @@ class NewPatient {
     createBtn = "//span[normalize-space()='Create Patient']"
     acceptBtn = "//span[normalize-space()='Accept']"
     maritalStatus = "#maritalstatus"
-    dateofBirth ='[aria-label="Choose date"]'
+    dateofBirth = "//button[@aria-label='Choose date']//*[name()='svg']"
     createToastBtn = "//div[contains(text(),'Created Patient')]"
+    countrydropdown = '//div[@placeholder="Country"]//button[@title="Open"]'
+    countryOfChoice = "//li[@id='country-option-239']"
+    stateOfChoice = "//li[@id='pstate-option-47']"
 
 
 
@@ -29,11 +32,11 @@ class NewPatient {
     }
 
     setFirstName(fName){
-      cy.get(this.firstName).type(fName)
+      cy.get(this.firstName).clear().type(fName)
     }
 
     setLastName(lName){
-      cy.get(this.lastName).type(lName)
+      cy.get(this.lastName).clear().type(lName)
     }
 
     setGender(){
@@ -42,30 +45,39 @@ class NewPatient {
 
     }
 
-    setCountry(contry){
-      cy.get(this.country).type(contry)
+    setCountry(){
+      // cy.get(this.country).clear()
+      cy.xpath(this.countrydropdown)
+  .should('be.visible')
+  .should('be.enabled')
+  .click({ force: true });
+      cy.xpath(this.countryOfChoice).click()
+     
+      
     }
-    setState(sta){
-      cy.get(this.state).type(sta)
+    setState(){
+      cy.get(this.state).click()
+      cy.xpath(this.stateOfChoice).click()
     }
     setMarriage(){
       cy.get(this.maritalStatus).click()
       cy.xpath(this.maritalOptions).click()
     }
     setCity(city){
-      cy.get(this.city).type(city)
+      cy.get(this.city).clear().type(city)
     }
 
-    setDob(dob){
-      cy.get(this.dateofBirth).type(dob)
+    setDob(){
+      cy.xpath(this.dateofBirth).click()
+      cy.wait(2000)
     }
 
     setAddress(Add){
-      cy.get(this.address).type(Add)
+      cy.get(this.address).clear().type(Add)
     }
 
     setZipcode(zcode){
-      cy.xpath(this.zipCode).type(zcode)
+      cy.xpath(this.zipCode).clear().type(zcode)
     }
 
     clickCreateBtn(){
@@ -73,7 +85,6 @@ class NewPatient {
     }
 
     clickAcceptBtn(){
-      // cy.xpath().wait(5000).click()
       cy.xpath(this.acceptBtn, { timeout: 10000 }).click();
       cy.log(this.acceptBtn)
 

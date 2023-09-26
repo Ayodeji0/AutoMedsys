@@ -9,6 +9,7 @@ class DashBoard
     currentuser = "//button[@aria-label='account of current user']"
     profilebtn ="//li[normalize-space()='Profile']"
     signoutbtn = "//li[normalize-space()='Sign out']"
+    
 
     verifyLogo() {
         cy.xpath(this.companyLogo).should('be.visible');

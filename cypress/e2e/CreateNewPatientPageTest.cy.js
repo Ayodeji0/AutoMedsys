@@ -26,10 +26,14 @@ describe("createPatient", () => {
         newPatient.setLastName(info.lName)
         newPatient.setGender()
         newPatient.setMarriage()
-        newPatient.setDob(info.dob)
+        // date of birth logic
+
+        // const { year, month, day } = data.dob;
+        // newPatient.setDob();
+
         newPatient.setAddress(info.Add)
-        // newPatient.setCountry(info.contry)
-        // newPatient.setState(info.sta)
+        newPatient.setCountry(info.contry)
+        newPatient.setState(info.sta)
         newPatient.setCity(info.city)
         newPatient.setZipcode(info.zcode)
         newPatient.clickCreateBtn()
