@@ -1,20 +1,12 @@
 
 import Dashboard from "../PageObjects/DashBoardPage";
-import Login from "../PageObjects/LoginPage";
 
 describe("DashboardPage", () => {
 
   beforeEach(() => {
     // Perform the login before running the test
     cy.visit('/');
-    cy.fixture("logindetails").then((user) => {
-      const login = new Login();
-      login.setUserName(user.username);
-      login.setPassword(user.password);
-      login.setPracticeId(user.practiceId);
-      login.clickLogin();
-      login.verifyLogin();
-    }); 
+    cy.loginWithCredentials(true); 
   });
   
 // Create an instance of the Dashboard class

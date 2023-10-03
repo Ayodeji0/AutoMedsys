@@ -1,30 +1,32 @@
 
-import Login from "../PageObjects/LoginPage";
 import Demography from "../PageObjects/DemographyPage";
 
 
-describe("identity information",()=>{
+describe("Demography information Page",()=>{
+  const demo =  new Demography()
     before(() => {
         // Perform the login before running the test
         cy.visit('/');
-        cy.fixture("logindetails").then((user) => {
-          const login = new Login();
-          login.setUserName(user.username);
-          login.setPassword(user.password);
-          login.setPracticeId(user.practiceId);
-          login.clickLogin();
-          login.verifyLogin();
-        });   
+    cy.loginWithCredentials(true);   
       });
-      const demo =  new Demography()
-    it('test1',()=>{  
-     demo.clickPatientNamebtn()
-     demo.pickPatient()
-     demo.clickDemography()
-     demo.clickidentitybtn()
-     demo.typeDropdown()
-     demo.entervalue("78654589443")
+     
+    it('identity Information',()=>{ 
+      cy.fixture("identityinfo").then((data)=>{
+        demo.clickPatientNameBtn()
+        demo.pickPatient()
+        demo.clickDemography()
+        demo.clickIdentityBtn()
+        demo.selectFromTypesdropdown(data.types)
+        demo.enteridentityValue(data.Number)
+        demo.fileUpload()
+        demo.clickAddIdentityBtn()
+        demo.assertionToast()
+      }) 
+   
  })
 
 
 })
+
+
+  

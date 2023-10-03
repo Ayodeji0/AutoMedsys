@@ -4,11 +4,11 @@ class NewPatient {
     patientManagementAddBtn = ".svg-inline--fa.fa-plus"
     firstName ="#firstname"
     lastName = "#lastname"
-    gender = "#gender"
-    genderOptions = "//li[@id='gender-option-1']"
-    maritalOptions = "//li[@id='maritalstatus-option-2']"
+    genderDropdown = '//div[@placeholder="Gender"]//button[@title="Open"]'
+    maritalDropDown = 'div[placeholder="Marital Status"] button[title="Open"]'
     country = "#country"
     state = "#pstate"
+    stateDropdown = 'div[placeholder="State"] button[title="Open"]'
     city = "#city"
     address = 'input[name="addr1"]'
     zipCode = "//input[@id='zip']"
@@ -16,10 +16,20 @@ class NewPatient {
     acceptBtn = "//span[normalize-space()='Accept']"
     maritalStatus = "#maritalstatus"
     dateofBirth = "//button[@aria-label='Choose date']//*[name()='svg']"
+    calendarbtn = "//button[@aria-label='calendar view is open, switch to year view']"
     createToastBtn = "//div[contains(text(),'Created Patient')]"
     countrydropdown = '//div[@placeholder="Country"]//button[@title="Open"]'
     countryOfChoice = "//li[@id='country-option-239']"
     stateOfChoice = "//li[@id='pstate-option-47']"
+    dateOfBirthInputField = "//input[@aria-label='Choose date']"
+    calendaropenbtn = ".MuiInputAdornment-root > .MuiButtonBase-root"
+    calendar = ".MuiDateCalendar-root"
+    getYearBtn = "//button[normalize-space()='1994']"
+    getDateBtn = "//button[normalize-space()='7']"
+   
+    // This is for dynamic calenar
+
+    
 
 
 
@@ -39,37 +49,88 @@ class NewPatient {
       cy.get(this.lastName).clear().type(lName)
     }
 
-    setGender(){
-      cy.get(this.gender).click()
-      cy.xpath(this.genderOptions).click()
 
+    selectGender(){
+      const genderOptions = ['Male', 'Female', 'Unknown'];
+      const randomIndex = Cypress._.random(0, genderOptions.length - 1);
+      const selectedOption = genderOptions[randomIndex];
+      cy.xpath(this.genderDropdown).click()
+      cy.contains(selectedOption).click()
     }
 
+
     setCountry(){
-      // cy.get(this.country).clear()
       cy.xpath(this.countrydropdown)
   .should('be.visible')
   .should('be.enabled')
   .click({ force: true });
       cy.xpath(this.countryOfChoice).click()
-     
-      
+       
     }
-    setState(){
-      cy.get(this.state).click()
-      cy.xpath(this.stateOfChoice).click()
-    }
-    setMarriage(){
-      cy.get(this.maritalStatus).click()
-      cy.xpath(this.maritalOptions).click()
-    }
-    setCity(city){
-      cy.get(this.city).clear().type(city)
+   
+
+    selectState() {
+      const randomIndex = Cypress._.random(0, 49);
+      cy.get(this.stateDropdown)
+        .click() 
+        .focus()
+        .type('{downarrow}'.repeat(randomIndex)) 
+        .type('{enter}');
+      cy.get('body').click(); 
     }
 
+
+    selectMaritalStatus() {
+      const randomIndex = Cypress._.random(0, 5);
+      cy.get(this.maritalDropDown)
+        .click() 
+        .focus()
+        .type('{downarrow}'.repeat(randomIndex)) // Use 'repeat' to simulate multiple arrow key presses
+        .type('{enter}');
+      cy.get('body').click(); 
+    }
+    
+
+    // setMaritalStatus() {
+    //   const randomIndex = Cypress._.random(0, 5);
+    
+    //   cy.get(this.stateDropdown)
+    //     .click()
+    //     .focus();
+    
+    //   // Simulate multiple arrow key presses to navigate to the selected option
+    //   for (let i = 0; i < randomIndex; i++) {
+    //     cy.get(this.stateDropdown).type('{downarrow}');
+    //   }
+    
+    //   // Select the chosen option by pressing Enter
+    //   cy.get(this.stateDropdown).type('{enter}');
+        
+    //   // Close the dropdown (if needed)
+    //   cy.get('body').click(); // Click somewhere outside the dropdown to close it
+    // }
+    
+
+  // Hard coded way of selecting from a dropdown
+    // setMaritalStatus(){
+    //   const maritalOptions = ["Married","Single","Divorced","Widow/Widower","Separated","Unknown"]
+    //   const randomIndex = Cypress._.random(0, maritalOptions.length-1)
+    //   const SelectedOptions = maritalOptions[randomIndex]
+    //   cy.get(this.maritalDropDown).click()
+    //   cy.contains(SelectedOptions).click()
+    // }
+
+    setCity(city){
+      cy.get(this.city).clear({ force: true }).type(city, { force: true });
+    }
+    
+ // date of birth 
     setDob(){
-      cy.xpath(this.dateofBirth).click()
-      cy.wait(2000)
+   cy.get(this.calendaropenbtn).click()
+   cy.xpath(this.calendarbtn).click()
+   cy.xpath(this.getYearBtn).click()
+   cy.xpath(this.getDateBtn).click()
+ 
     }
 
     setAddress(Add){

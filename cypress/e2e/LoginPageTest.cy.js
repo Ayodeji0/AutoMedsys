@@ -1,17 +1,15 @@
 import Login from "../PageObjects/LoginPage";
 describe('Login Page Tests', () => {
-  it('LoginPageTest', () => {
-    // Visit the login page
+  it('LoginPageTest with Valid Credentials', () => {
     cy.visit('/');
-   
-    cy.fixture("logindetails").then((user)=>{
-    
-      const login = new Login()
-      login.setUserName(user.username)
-      login.setPassword(user.password)
-      login.setPracticeId(user.practiceId)
-      login.clickLogin()
-      login.verifyLogin()
-    })  
+    cy.loginWithCredentials(); 
   });
+
+
+
+//   This is for negative test cases
+//   it.only('With another test Credentials',()=>{
+//     // Use the custom command to log in with other credentials
+// cy.loginWithCredentials('Eugene@automedsys.com', 'P@rfect2', 'BDW20201001');
+//   })
 });

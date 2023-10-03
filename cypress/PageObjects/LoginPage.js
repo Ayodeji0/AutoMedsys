@@ -1,36 +1,36 @@
 
-class Login
-
- {
-    txtUserName = '#Username'
-    txtPassword = "//input[@id='Password']"
-    txtPractice = '#PracticeRefNumber'
-    txtbutton = '.MuiButton-label'
-
-   setUserName(username)
-   {
-    cy.get(this.txtUserName).type(username);
+class Login {
+   // Define selectors
+   txtUserName = '#Username';
+   txtPassword = "//input[@id='Password']";
+   txtPractice = '#PracticeRefNumber';
+   txtButton = '.MuiButton-label';
+ 
+   // Set the username in the input field
+   setUserName(username) {
+     cy.get(this.txtUserName).type(username);
    }
-
-   setPassword(password)
-   {
-    cy.xpath(this.txtPassword).type(password);
+ 
+   // Set the password using an XPath selector
+   setPassword(password) {
+     cy.xpath(this.txtPassword).type(password);
    }
-
-   setPracticeId(practiceid)
-   {
-    cy.get(this.txtPractice ).type(practiceid);
+ 
+   // Set the practice ID in the input field
+   setPracticeId(practiceid) {
+     cy.get(this.txtPractice).type(practiceid);
    }
-
-   clickLogin()
-   {
-    cy.get(this.txtbutton).click();
+ 
+   // Click the login button
+   clickLogin() {
+     cy.get(this.txtButton).click();
    }
-
-   verifyLogin()
-   {
-    cy.url({ timeout: 5000 }).should('include', '/dashboard');
+ 
+   // Verify that the URL includes '/dashboard'
+   verifyLogin() {
+     cy.url({ timeout: 5000 }).should('include', '/dashboard');
    }
-
-} 
-export default Login
+ }
+ 
+ export default Login;
+ 
