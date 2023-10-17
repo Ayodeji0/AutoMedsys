@@ -28,6 +28,7 @@ class Login {
  
    // Verify that the URL includes '/dashboard'
    verifyLogin() {
+    cy.wait(2000)
      cy.url({ timeout: 5000 }).should('include', '/dashboard');
    }
  }

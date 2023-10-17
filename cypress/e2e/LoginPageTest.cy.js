@@ -1,4 +1,4 @@
-import Login from "../PageObjects/LoginPage";
+
 describe('Login Page Tests', () => {
   it('LoginPageTest with Valid Credentials', () => {
     cy.visit('/');

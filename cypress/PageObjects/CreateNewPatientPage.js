@@ -29,10 +29,6 @@ class NewPatient {
    
     // This is for dynamic calenar
 
-    
-
-
-
     clickpatientBtn(){
       cy.xpath(this.patientsBtn ).click();
     }
@@ -81,7 +77,7 @@ class NewPatient {
 
 
     selectMaritalStatus() {
-      const randomIndex = Cypress._.random(0, 5);
+      const randomIndex = Cypress._.random(1, 5);
       cy.get(this.maritalDropDown)
         .click() 
         .focus()
@@ -90,35 +86,6 @@ class NewPatient {
       cy.get('body').click(); 
     }
     
-
-    // setMaritalStatus() {
-    //   const randomIndex = Cypress._.random(0, 5);
-    
-    //   cy.get(this.stateDropdown)
-    //     .click()
-    //     .focus();
-    
-    //   // Simulate multiple arrow key presses to navigate to the selected option
-    //   for (let i = 0; i < randomIndex; i++) {
-    //     cy.get(this.stateDropdown).type('{downarrow}');
-    //   }
-    
-    //   // Select the chosen option by pressing Enter
-    //   cy.get(this.stateDropdown).type('{enter}');
-        
-    //   // Close the dropdown (if needed)
-    //   cy.get('body').click(); // Click somewhere outside the dropdown to close it
-    // }
-    
-
-  // Hard coded way of selecting from a dropdown
-    // setMaritalStatus(){
-    //   const maritalOptions = ["Married","Single","Divorced","Widow/Widower","Separated","Unknown"]
-    //   const randomIndex = Cypress._.random(0, maritalOptions.length-1)
-    //   const SelectedOptions = maritalOptions[randomIndex]
-    //   cy.get(this.maritalDropDown).click()
-    //   cy.contains(SelectedOptions).click()
-    // }
 
     setCity(city){
       cy.get(this.city).clear({ force: true }).type(city, { force: true });
@@ -151,7 +118,7 @@ class NewPatient {
 
     }
 
-    verfiyCreatedpatient(){
+    verifyCreatedPatient(){
       cy.xpath(this.createToastBtn, { timeout: 10000 }).should('contain.text', 'Created Patient');
     }
 
