@@ -5,7 +5,7 @@ class NewPatient {
     firstName ="#firstname"
     lastName = "#lastname"
     genderDropdown = '//div[@placeholder="Gender"]//button[@title="Open"]'
-    maritalDropDown = 'div[placeholder="Marital Status"] button[title="Open"]'
+    maritalDropDown = '#maritalstatus'
     country = "#country"
     state = "#pstate"
     stateDropdown = 'div[placeholder="State"] button[title="Open"]'
@@ -66,7 +66,7 @@ class NewPatient {
    
 
     selectState() {
-      const randomIndex = Cypress._.random(0, 49);
+      const randomIndex = Cypress._.random(1, 49);
       cy.get(this.stateDropdown)
         .click() 
         .focus()
@@ -93,10 +93,11 @@ class NewPatient {
     
  // date of birth 
     setDob(){
-   cy.get(this.calendaropenbtn).click()
-   cy.xpath(this.calendarbtn).click()
-   cy.xpath(this.getYearBtn).click()
-   cy.xpath(this.getDateBtn).click()
+      cy.get(this.calendaropenbtn).click();
+      cy.xpath(this.calendarbtn).click();
+      cy.xpath(this.getYearBtn).click();
+      cy.xpath(this.getDateBtn).should('be.visible').click();
+      
  
     }
 

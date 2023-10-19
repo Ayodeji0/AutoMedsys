@@ -15,7 +15,10 @@ module.exports = defineConfig({
   },
   screenshotOnRunFailure: true, // Enable screenshot capture on test failure
   video: true, // Enable video recording
+
+ 
 });
+
 
 
 

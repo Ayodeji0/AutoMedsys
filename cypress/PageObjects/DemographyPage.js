@@ -14,7 +14,7 @@ class Demography {
   input= 'input[placeholder="Type"]'
   typeOptions= ".MuiAutocomplete-option"
   // end to end testing
-  identityBtn2= '.jss480 > :nth-child(4) > .MuiButtonBase-root'
+  identityBtn2= ':nth-child(4) > .MuiButtonBase-root > .MuiFab-label > .MuiSvgIcon-root'
   typefield = 'input[placeholder = "Type"]'
   typeselected = "//li[.='Social Security Number']"
   idNumber = 'input[placeholder="ID Number/Value"]'
@@ -33,8 +33,8 @@ class Demography {
    addInsuranceBtn = '//span[normalize-space()="Add Insurance"]'
 
    // Emergency Contact Selectors
-   emergencyBtn = ".jss401 > :nth-child(4) > .MuiTypography-root"
-   emergencyAddBtn = ".jss480 > :nth-child(4) > .MuiButtonBase-root"
+   emergencyBtn = "//p[normalize-space()='Emergency Contact']"
+   emergencyAddBtn = "//button[contains(@class,'MuiButtonBase-root MuiFab-root fadeInUp animated fast delay-0-3s MuiFab-primary')]"
    emegencyfirstName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="First Name"]'
    emegencylastName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="Last Name"]'
    emegencyGender = '//div[@class="viewLayout-viewInput"]//div[@placeholder="Gender"]//button[@title="Open"]//span[@class="MuiIconButton-label"]//*[name()="svg"]'
@@ -46,18 +46,28 @@ class Demography {
    emergencySaveBtn = "//button[contains(.,'SAVE')]"
    emergencyassertion = "//p[normalize-space()='Emergency Contact Saved']"
 
-
-   // Employment Information
-   employmentBtn = ".jss401 > :nth-child(5) > .MuiTypography-root"
-   employmentaddBtn = ".jss502 > .MuiButtonBase-root"
-   employmentTypedropdownBtn = '//div[@placeholder="Employment Type"]//button[@title="Open"]//span[@class="MuiIconButton-label"]'
-   employmentTypeStudentdropdownBtn = '//div[@placeholder="Student"]//button[@title="Open"]//span[@class="MuiIconButton-label"]'
+   // Employment Information Selectors
+   employmentBtn = '//p[normalize-space()="Employment Information"]'
+   employmentaddBtn = ":nth-child(4) > .MuiButtonBase-root > .MuiFab-label > .MuiSvgIcon-root > path"
+   employmentTypedropdownBtn = "//input[@placeholder='Employment Type']"
+   employmentTypeStudentdropdownBtn = "//input[@placeholder='Student']"
    employmentAddress = '//div[@placeholder="Address"]'
-   employmentStatedropdown = "//div[@placeholder='State']//button[@title='Open']"
+   employmentStatedropdown = "//input[@placeholder='State']"
    employmentCity = '//input[@placeholder="City"]'
    employmentZipcode = '//input[@placeholder="Zip Code"]'
-   employmentSaveBtn = "//button[contains(.,'SAVE')]"
+   employmentSaveBtn = "(//button[normalize-space(.)='Save'])[2]"
    employmentAssertion = "//p[normalize-space()='Employment Information Saved']"
+
+   // Patient Consent Selectors
+   patientConsentBtn = "//p[.='Patient Consent']"
+   patientConsentAddBtn = '//div[@role="presentation"]//button[2]//span[1]//*[name()="svg"]'
+   patientConsentTypeField = "//div[@id='mui-component-select-ConsentType']"
+   patientConsentFirstName = "//input[@name='GrantedByFirstName']"
+   patientConsentLastName = "//input[@name='GrantedByLastName']"
+   patientConsentRelationship = "//div[@id='mui-component-select-Relationship']"
+   patientConsentnotefield = "//textarea[@placeholder='Enter Note...']"
+   patientCreateConsent = "//p[normalize-space()='Create Consent']"
+   patientAssert = "//div[@role='alert']"
 
 
  // identity information
@@ -68,6 +78,7 @@ class Demography {
   }
 
   selectFromTypesdropdown(types){  
+    cy.wait(1000)
     cy.get(this.input).type('Social')
     cy.get(this.Dropdownullist).find(this.typeOptions).eq(0).contains(types).click()
  }
@@ -110,8 +121,8 @@ class Demography {
    //Emergency Module
   clickEmergencyBtn(){
     cy.wait(3000)
-    cy.get(this.emergencyBtn).click()
-    cy.get(this.emergencyAddBtn).click()
+    cy.xpath(this.emergencyBtn).click()
+    cy.xpath(this.emergencyAddBtn).click()
   }
 
  enterFirstName(fname){
@@ -140,13 +151,13 @@ enteraddress(address){
 }
 
 selectState() {
-  // const randomIndex = Cypress._.random(0, 49);
-  cy.get(this.emergencyStatedropdown)
+  const randomIndex = Cypress._.random(0, 49);
+  cy.xpath(this.emergencyStatedropdown)
     .click() 
-  //   .focus()
-  //   .type('{downarrow}'.repeat(randomIndex)) 
-  //   .type('{enter}');
-  // cy.get('body').click(); 
+    .focus()
+    .type('{downarrow}'.repeat(randomIndex)) 
+    .type('{enter}');
+  cy.get('body').click(); 
 }
 
 
@@ -173,13 +184,13 @@ verifyEmergencySaved(){
 
 clickOnEmploymentBtn(){
   cy.wait(3000)
-  cy.get(this.employmentBtn).click()
+  cy.xpath(this.employmentBtn).click()
   cy.get(this.employmentaddBtn).click()
 }
 
 selectEmploymentType() {
   const randomIndex = Cypress._.random(1, 5);
-  cy.get(this.employmentTypedropdownBtn)
+  cy.xpath(this.employmentTypedropdownBtn)
     .click() 
     .focus()
     .type('{downarrow}'.repeat(randomIndex)) 
@@ -189,7 +200,7 @@ selectEmploymentType() {
 
  selectStudentEmployment() {
   const randomIndex = Cypress._.random(1, 4);
-  cy.get(this.employmentTypeStudentdropdownBtn)
+  cy.xpath(this.employmentTypeStudentdropdownBtn)
     .click() 
     .focus()
     .type('{downarrow}'.repeat(randomIndex)) 
@@ -198,38 +209,108 @@ selectEmploymentType() {
 }
 
 
- selectAddress(add){
- cy.xpath().clear().type(add)
+ enterAddress(address){
+ cy.xpath(this.employmentAddress).type(address)
  }
 
  selectState() {
   const randomIndex = Cypress._.random(0, 49);
-  cy.get(this.employmentStatedropdown)
-    .click() 
+
+  cy.xpath(this.employmentStatedropdown)
+    .click({force:'true'})
     .focus()
-    .type('{downarrow}'.repeat(randomIndex)) 
+    .type('{downarrow}'.repeat(randomIndex))
     .type('{enter}');
   cy.get('body').click(); 
 }
 
- enterCity(city) {
- cy.xpath(this.emergencyCity).clear().type(city)
- }
 
-  enterZipCode(zipcode) {
-    cy.xpath(this.employmentZipcode).type(zipcode)
-  }
+enterCity(city) {
+  cy.xpath(this.emergencyCity)
+    .clear()
+    .type(city);
+}
 
 
-  clickSaveBtn() {
-    cy.xpath(this.employmentSaveBtn).click()
-  }
+enterZipCode(zipcode) {
+  cy.xpath(this.employmentZipcode)
+    .clear()
+    .type(zipcode);
+}
+
+
+
+clickSaveBtn() {
+  cy.xpath(this.employmentSaveBtn).click();
+}
+
 
   verifyEmploymentSaved(){
     cy.wait(1000)
-    cy.xpath(this.emergencyassertion, { timeout: 10000 }).should('contain.text','Employment Information Saved');
+    cy.xpath(this.employmentAssertion, { timeout: 10000 }).should('contain.text','Employment Information Saved');
   }
 
+  // Patient Consent
+
+  clickOnPatientConsent(){
+    cy.wait(3000)
+    cy.xpath(this.patientConsentBtn).dblclick()
+    
+  }
+
+  clickOnAddPatientConsent(){
+    cy.wait(2000)
+    cy.xpath(this.patientConsentAddBtn).click({force:'true'})
+  }
+
+  selectConsentType() {
+    const randomIndex = Cypress._.random(1, 3);
+    cy.xpath(this.patientConsentTypeField)
+      .click() 
+      .focus()
+      .type('{downarrow}'.repeat(randomIndex)) 
+      .type('{enter}');
+    cy.get('body').click(); 
+  }
+
+
+  // enterFirstName(Fname) {
+  //   cy.xpath(this.patientConsentFirstName)
+  //     .should('be.visible')
+  //     .type(Fname);
+  // }
+  
+
+
+  // enterLastName(Lname) {
+  //   cy.xpath(this.patientConsentLastName).type(Lname)
+  // }
+
+ 
+  selectConsentRelationship() {
+    const randomIndex = Cypress._.random(1, 5);
+    cy.xpath(this.patientConsentRelationship)
+      .click() 
+      .focus()
+      .type('{downarrow}'.repeat(randomIndex)) 
+      .type('{enter}');
+    cy.get('body').click(); 
+  }
+
+  enterNote(notes) {
+    cy.xpath(this.patientConsentnotefield).type(notes)
+  }
+
+
+ clickOnCreateConsent(){
+  cy.wait(2000)
+  cy.xpath(this.patientCreateConsent).click()
+ }
+
+  verifyConsentSaved(){
+    cy.wait(2000)
+    cy.xpath(this.emergencyassertion, { timeout: 10000 }).should('contain.text', 'Consent successfully created');
+  }
 
 
 
