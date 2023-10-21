@@ -35,8 +35,8 @@ class Demography {
    // Emergency Contact Selectors
    emergencyBtn = "//p[normalize-space()='Emergency Contact']"
    emergencyAddBtn = "//button[contains(@class,'MuiButtonBase-root MuiFab-root fadeInUp animated fast delay-0-3s MuiFab-primary')]"
-   emegencyfirstName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="First Name"]'
-   emegencylastName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="Last Name"]'
+   emergencyfirstName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="First Name"]'
+   emergencylastName = '//div[@class="viewLayout-viewInput"]//input[@placeholder="Last Name"]'
    emegencyGender = '//div[@class="viewLayout-viewInput"]//div[@placeholder="Gender"]//button[@title="Open"]//span[@class="MuiIconButton-label"]//*[name()="svg"]'
    emegencyCellPhone = '#cphone'
    emergencyStatedropdown = 'div[placeholder="State"] button[title="Open"]'
@@ -62,12 +62,13 @@ class Demography {
    patientConsentBtn = "//p[.='Patient Consent']"
    patientConsentAddBtn = '//div[@role="presentation"]//button[2]//span[1]//*[name()="svg"]'
    patientConsentTypeField = "//div[@id='mui-component-select-ConsentType']"
-   patientConsentFirstName = "//input[@name='GrantedByFirstName']"
-   patientConsentLastName = "//input[@name='GrantedByLastName']"
+  //  patientConsentFirstName = "(//input[@placeholder='First Name'])[2]"
+   patientConsentLastName = "input[placeholder='Last Name'][name='GrantedByLastName']"
    patientConsentRelationship = "//div[@id='mui-component-select-Relationship']"
    patientConsentnotefield = "//textarea[@placeholder='Enter Note...']"
    patientCreateConsent = "//p[normalize-space()='Create Consent']"
    patientAssert = "//div[@role='alert']"
+   test = '[data-value="INF"]'
 
 
  // identity information
@@ -118,6 +119,7 @@ class Demography {
     cy.xpath(this.addInsuranceBtn).scrollIntoView().click();
    }
   
+  
    //Emergency Module
   clickEmergencyBtn(){
     cy.wait(3000)
@@ -125,12 +127,12 @@ class Demography {
     cy.xpath(this.emergencyAddBtn).click()
   }
 
- enterFirstName(fname){
-  cy.xpath(this.emegencyfirstName).type(fname)
+ emergencyFirstName(firstname){
+  cy.xpath(this.emergencyfirstName).type(firstname)
  }
 
- enterLastName(lname){
-  cy.xpath(this.emegencylastName).type(lname)
+ emergencyLastName(lastname){
+  cy.xpath(this.emergencylastName).type(lastname)
  
 }
 
@@ -246,71 +248,70 @@ clickSaveBtn() {
 
 
   verifyEmploymentSaved(){
-    cy.wait(1000)
+    cy.wait(3000)
     cy.xpath(this.employmentAssertion, { timeout: 10000 }).should('contain.text','Employment Information Saved');
   }
 
   // Patient Consent
 
   clickOnPatientConsent(){
-    cy.wait(3000)
-    cy.xpath(this.patientConsentBtn).dblclick()
-    
+    cy.wait(1000)
+    cy.xpath(this.patientConsentBtn).click({force:true})
   }
 
   clickOnAddPatientConsent(){
-    cy.wait(2000)
-    cy.xpath(this.patientConsentAddBtn).click({force:'true'})
+    cy.wait(3000)
+    cy.xpath(this.patientConsentAddBtn).click({force:true})
+    
   }
 
-  selectConsentType() {
-    const randomIndex = Cypress._.random(1, 3);
-    cy.xpath(this.patientConsentTypeField)
-      .click() 
-      .focus()
-      .type('{downarrow}'.repeat(randomIndex)) 
-      .type('{enter}');
-    cy.get('body').click(); 
-  }
-
-
-  // enterFirstName(Fname) {
-  //   cy.xpath(this.patientConsentFirstName)
-  //     .should('be.visible')
-  //     .type(Fname);
-  // }
   
 
+  selectConsentType() {
+    // Find the <ul> element containing the list items
+    cy.xpath(this.patientConsentTypeField).each(($element) => {
+      cy.wrap($element).click({ force: true });
+    });
+    
+  }
 
-  // enterLastName(Lname) {
-  //   cy.xpath(this.patientConsentLastName).type(Lname)
-  // }
+  
+
+  enterFirstName(Fname) {
+    cy.wait(2000)
+    cy.get().type(Fname);
+  }
+  
+
+  enterLastName(Lname) {
+    cy.get(this.patientConsentLastName).should('be.visible').type(Lname)
+  }
 
  
-  selectConsentRelationship() {
-    const randomIndex = Cypress._.random(1, 5);
-    cy.xpath(this.patientConsentRelationship)
-      .click() 
-      .focus()
-      .type('{downarrow}'.repeat(randomIndex)) 
-      .type('{enter}');
-    cy.get('body').click(); 
-  }
+//   selectConsentRelationship() {
+//     const randomIndex = Cypress._.random(1, 5);
+//     cy.xpath(this.patientConsentRelationship)
+//       .click() 
+//       .focus()
+//       .type('{downarrow}'.repeat(randomIndex)) 
+//       .type('{enter}');
+//     cy.get('body').click(); 
+//   }
 
-  enterNote(notes) {
-    cy.xpath(this.patientConsentnotefield).type(notes)
-  }
+//   enterNote(notes) {
+//     cy.xpath(this.patientConsentnotefield).type(notes)
+//   }
 
 
- clickOnCreateConsent(){
-  cy.wait(2000)
-  cy.xpath(this.patientCreateConsent).click()
- }
+//  clickOnCreateConsent(){
+//   cy.wait(2000)
+//   cy.xpath(this.patientCreateConsent).click()
+//  }
 
-  verifyConsentSaved(){
-    cy.wait(2000)
-    cy.xpath(this.emergencyassertion, { timeout: 10000 }).should('contain.text', 'Consent successfully created');
-  }
+//   verifyConsentSaved(){
+//     cy.wait(2000)
+//     cy.xpath(this.emergencyassertion, { timeout: 10000 }).should('contain.text', 'Consent successfully created');
+//   }
 
 
 

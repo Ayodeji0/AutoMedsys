@@ -35,10 +35,9 @@ describe("Demography end2end information Page", ()=>{
         demo.clickDate()
 
         //emergency class
-
        demo.clickEmergencyBtn()
-       demo.enterFirstName(fakefirstName)
-       demo.enterLastName(fakelastName)
+       demo.emergencyFirstName(fakefirstName)
+       demo.emergencyLastName(fakelastName)
        demo.selectGender()
        demo.enterphoneNumber(fakenumber)
        demo.enteraddress(fakeaddress)
